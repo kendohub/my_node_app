@@ -16,6 +16,11 @@ router.get('/', function(req, res, next) {
   connection.end();
 });
 
+/* GET new todo. */
+router.get('/new', function(req, res, next) {
+  res.render('todos/new');
+});
+
 /* POST create todo. */
 router.post('/', function(req, res, next) {
   const title = req.body.title;
@@ -30,14 +35,14 @@ router.post('/', function(req, res, next) {
     (err, rows, fields) => {
       if (err) throw err;
 
-      res.send(`respond with a new resource ${title} ${content}`);
+    res.redirect('/todos/new');
   });
 
   connection.end();
 });
 
 /* GET show todo. */
-router.get('/:id', function(req, res, next) {
+router.get('/:id(\\d+)', function(req, res, next) {
   const connection = getDbConnection();
   connection.connect();
 
