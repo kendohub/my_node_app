@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
+let RedisStore = require("connect-redis")(session);
+const { createClient } = require("redis")
+let redisClient = createClient({ legacyMode: true })
+redisClient.connect().catch(console.error)
 
 var indexRouter = require('./routes/index');
 var todosRouter = require('./routes/todos');
@@ -23,7 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new RedisStore({ client: redisClient })
 }));
 
 app.use('/', indexRouter);
