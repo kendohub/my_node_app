@@ -19,10 +19,11 @@ router.get('/', function(req, res, next) {
 
   const fromDate = new Date(req.query.fromDate);
   const toDate = new Date(req.query.toDate);
+  const maxCount = 100;
   
-  const query = 'SELECT * FROM `todos` WHERE ? <= `created_at` AND `created_at` < ?';
+  const query = 'SELECT * FROM `todos` WHERE ? <= `created_at` AND `created_at` < ? LIMIT ?';
   const q = pool.query(query,
-    [fromDate, toDate],
+    [fromDate, toDate, maxCount],
     (err, rows, fields) => {
     if (err) throw err;
   
