@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
   const fromDate = new Date(req.query.fromDate);
   const toDate = new Date(req.query.toDate);
   
-  const query = 'SELECT * FROM `todos` WHERE ? <= `created_at` AND `updated_at` < ?';
+  const query = 'SELECT * FROM `todos` WHERE ? <= `created_at` AND `created_at` < ?';
   const q = pool.query(query,
     [fromDate, toDate],
     (err, rows, fields) => {
